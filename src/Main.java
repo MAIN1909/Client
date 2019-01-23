@@ -18,7 +18,7 @@ public class Main {
 
         while (true) {
             String msg = new Scanner(System.in).nextLine();
-            try (Socket client = new Socket("192.168.1.104", 51001)) {
+            try (Socket client = new Socket("134.249.152.126", 51001)) {
                 ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
 
                 oos.writeObject(msg);
