@@ -1,18 +1,39 @@
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Enter message:");
-        String msg = new Scanner(System.in).nextLine();
-        try(Socket client = new Socket("10.11.0.173", 8899)){
-            ObjectOutputStream oos = new ObjectOutputStream(
-                    client.getOutputStream());
-            oos.writeObject(msg);
+        try (Socket client = new Socket("134.249.152.126", 51001)) {
+            ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
+            oos.writeObject(" ");
+            ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+            System.out.println(ois.readObject());
+            ois.close();
             oos.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        while (true) {
+            String msg = new Scanner(System.in).nextLine();
+            try (Socket client = new Socket("192.168.1.104", 51001)) {
+                ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
+
+                oos.writeObject(msg);
+                ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+                System.out.println(ois.readObject());
+
+
+                ois.close();
+                oos.close();
+                if ("exit".equals(msg)) {
+                    break;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
